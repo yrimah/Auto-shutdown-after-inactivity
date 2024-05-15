@@ -2,7 +2,7 @@
 
 # place the script in this location : /usr/bin/script.bash
 
-idleDuration=$(60) # 1min
+idleDuration=$((60)) # 1min
 
 appName="Trackabi Timer"
 
@@ -16,6 +16,8 @@ while true; do
     # Calculate the elapsed idle time
     elapsedIdleTime=$((idleTime - initialIdleTime))
 
+    # echo "Idle Time: $elapsedIdleTime"
+    
     # Check if the elapsed idle time exceeds the specified duration
     if [ $elapsedIdleTime -ge $idleDuration ]; then
         # Stop the specified application if it is running

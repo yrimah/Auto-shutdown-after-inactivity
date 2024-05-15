@@ -34,26 +34,19 @@ Add-Type @"
     }
 "@
 
-$idleDuration = New-TimeSpan -Minutes 7200
+$idleDuration = New-TimeSpan -Minutes 120
 
 $appName = "Trackabi Timer"
 
 while($true)
 {
     $idleTime = [UserInput1]::GetIdleTime()
-
+    
     if ($idleTime -ge $idleDuration)
     {
         Stop-Process -Name $appName
         Stop-Computer -Force
         break
     }
-    Start-Sleep -Seconds 60
+    Start-Sleep -Seconds 300
 }
-
-## test ##
-
-# trackabi timer before 5min #
-# 3h32
-# trackabi timer second day #
-# 3h32 and reset timer for today #
