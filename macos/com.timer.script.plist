@@ -1,0 +1,23 @@
+## created the file in this location : ~/Library/LaunchAgents/com.timer.script.plist
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.timer.script</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/script.bash</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/tmp/com.example.shutdown_on_idle.stdout</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/com.example.shutdown_on_idle.stderr</string>
+</dict>
+</plist>
+
+## run this command : launchctl load ~/Library/LaunchAgents/com.timer.script.plist
+## restart the system
