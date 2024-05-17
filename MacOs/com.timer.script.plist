@@ -12,6 +12,8 @@
     </array>
     <key>RunAtLoad</key>
     <true/>
+    <key>KeepAlive</key>
+    <true/>
     <key>StandardOutPath</key>
     <string>/tmp/com.example.shutdown_on_idle.stdout</string>
     <key>StandardErrorPath</key>

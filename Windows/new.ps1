@@ -58,28 +58,28 @@ function Send-Email($subject, $body) {
 }
 
 # Function to start the application with retry logic
-function Start-AppWithRetry($retries) {
-    for ($i = 1; $i -le $retries; $i++) {
-        try {
-            Start-Process -FilePath $appPath
-            return $true
-        } catch {
-            Start-Sleep -Seconds 2
-        }
-    }
-    Send-Email -subject "Application Start Failure" -body "The application $appName failed to start after $retries retries."
-    return $false
-}
+# function Start-AppWithRetry($retries) {
+#     for ($i = 1; $i -le $retries; $i++) {
+#         try {
+#             Start-Process -FilePath $appPath
+#             return $true
+#         } catch {
+#             Start-Sleep -Seconds 2
+#         }
+#     }
+#     Send-Email -subject "Application Start Failure" -body "The application $appName failed to start after $retries retries."
+#     return $false
+# }
 
 # Function to stop the application and ensure it is completely closed
-function Stop-App($appName) {
-    $processes = Get-Process -Name $appName -ErrorAction SilentlyContinue
-    if ($processes) {
-        foreach ($process in $processes) {
-            Stop-Process -Id $process.Id -Force -ErrorAction SilentlyContinue
-        }
-    }
-}
+# function Stop-App($appName) {
+#     $processes = Get-Process -Name $appName -ErrorAction SilentlyContinue
+#     if ($processes) {
+#         foreach ($process in $processes) {
+#             Stop-Process -Id $process.Id -Force -ErrorAction SilentlyContinue
+#         }
+#     }
+# }
 
 function Lock-Workstation {
     rundll32.exe user32.dll,LockWorkStation
@@ -92,27 +92,28 @@ $lastActive = [DateTime]::Now
 while ($true) {
     $idleTime = [UserInput]::GetIdleTime()
     
-    Write-Host "Idle time $idleTime"
+    # Write-Host "Idle time $idleTime"
 
     if ($idleTime -ge $idleDuration) {
         # User inactive for 1 minute
-        Stop-App -appName $appName
+        # Stop-App -appName $appName
         Lock-Workstation
 
         # Check for long inactivity for shutdown
-        if ([DateTime]::Now - $lastActive -ge $shutdownDuration) {
-            # Stop-Computer -Force
+        if ($idleTime -ge $shutdownDuration) {
+            Stop-Computer -Force
             break
         }
-    } else {
-        # User is active
-        $lastActive = [DateTime]::Now
-
-        # Check if the application is running, if not, start it
-        if (-not (Get-Process -Name $appName -ErrorAction SilentlyContinue)) {
-            Start-AppWithRetry -retries 3
-        }
     }
+    # else {
+    #     # User is active
+    #     $lastActive = [DateTime]::Now
+
+    #     # Check if the application is running, if not, start it
+    #     if (-not (Get-Process -Name $appName -ErrorAction SilentlyContinue)) {
+    #         Start-AppWithRetry -retries 3
+    #     }
+    # }
     
     Start-Sleep -Seconds 1
 }
